@@ -1,4 +1,4 @@
-import pytest
+import pytest, random
 
 # command line options
 def pytest_addoption(parser):
@@ -16,9 +16,4 @@ def pytest_collection_modifyitems(session, config, items):
     if not config.option.random:
         return
 
-    item_set = set(items)
-    new_order = []
-    while len(item_set):
-        new_order.append(item_set.pop())
-
-    items[:] = new_order
+    items = random.shuffle(items)

@@ -84,8 +84,13 @@ class TestFunctionality(object):
         # set up prereqs
         self._set_things_up(testdir)
 
-        # do randomized run
+        # do randomized run & compare to standard
         actual_output = testdir.runpytest('--random', '--verbose')
-
-        # compare to standard
         assert actual_output.outlines[6:-1] != self.expected_output.outlines[6:-1]
+
+        # do 10 randomized runs & campare to other randomized runs
+        run_results = [ actual_output.outlines[6:-1], self.expected_output.outlines[6:-1] ]
+        for x in range(10):
+            actual_output = testdir.runpytest('--random', '--verbose')
+            assert not actual_output.outlines[6:-1] in run_results
+            run_results.append(actual_output.outlines[6:-1])
