@@ -1,7 +1,16 @@
 from setuptools import setup
+import os
+
+
+version = '0.2'
+
+here = os.path.abspath(os.path.dirname(__file__))
+README = open(os.path.join(here, 'README.md')).read()
+HISTORY = open(os.path.join(here, 'HISTORY.md')).read()
+
 
 setup(name='pytest-random',
-      version='0.01',
+      version=version,
       description='py.test plugin to randomize tests',
       author='Leah Klearman',
       author_email='lklrmn@gmail.com',
