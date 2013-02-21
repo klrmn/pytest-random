@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.2 - Unreleased
+0.02 - 2013-02-21
 ----------------
 
 * Added --random-seed and --random-group options.

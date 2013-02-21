@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 
 
-version = '0.2'
+version = '0.02'
 
 try:  # this block doesn't work under tox
   here = os.path.abspath(os.path.dirname(__file__))
@@ -24,7 +24,7 @@ setup(name='pytest-random',
       license='Mozilla Public License 2.0 (MPL 2.0)',
       keywords='py.test pytest qa',
       classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Operating System :: POSIX',
