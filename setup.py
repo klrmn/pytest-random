@@ -4,9 +4,12 @@ import os
 
 version = '0.2'
 
-here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, 'README.md')).read()
-HISTORY = open(os.path.join(here, 'HISTORY.md')).read()
+try:  # this block doesn't work under tox
+  here = os.path.abspath(os.path.dirname(__file__))
+  README = open(os.path.join(here, 'README.md')).read()
+  HISTORY = open(os.path.join(here, 'HISTORY.md')).read()
+except:
+  pass
 
 
 setup(name='pytest-random',

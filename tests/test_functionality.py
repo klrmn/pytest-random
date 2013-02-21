@@ -42,34 +42,61 @@ class TestFunctionality(object):
             """
             )
 
-        # needs multiple test classes in a file
-        testdir.makepyfile("""
-            import pytest
+        if pytest.__version__ < '2.3':
+            # needs multiple test classes in a file
+            testdir.makepyfile("""
+                import pytest
 
-            class TestGimmel(object):
-                def test_q(self):
+                class TestGimmel(object):
+                    def test_q(self):
+                        pass
+
+                    def test_o(self):
+                        pass
+
+                    def test_n(self):
+                        pass
+
+                class TestAleph(object):
+                    def test_d(self):
+                        pass
+
+                    def test_e(self):
+                        pass
+
+                    def test_f(self):
+                        pass
+                """)
+        else:
+            # needs multiple test classes in a file
+            # with fixtures
+            testdir.makepyfile("""
+                import pytest
+
+                class TestGimmel(object):
+                    def test_q(self):
+                        pass
+
+                    def test_o(self):
+                        pass
+
+                    def test_n(self):
+                        pass
+
+                @pytest.fixture
+                def dummy_fixture(request):
                     pass
 
-                def test_o(self):
-                    pass
+                class TestAleph(object):
+                    def test_d(self, dummy_fixture):
+                        pass
 
-                def test_n(self):
-                    pass
+                    def test_e(self):
+                        pass
 
-            @pytest.fixture
-            def dummy_fixture(request):
-                pass
-
-            class TestAleph(object):
-                def test_d(self, dummy_fixture):
-                    pass
-
-                def test_e(self):
-                    pass
-
-                def test_f(self, dummy_fixture):
-                    pass
-            """)
+                    def test_f(self, dummy_fixture):
+                        pass
+                """)
 
         # collect expected output
         self.expected_output = testdir.runpytest('-p no:random', '--verbose')
@@ -120,6 +147,8 @@ class TestFunctionality(object):
         assert first_output.outlines[6:-1] != third_output.outlines[6:-1]
 
 
+    # fixtures are in version 2.3 onward
+    @pytest.mark.skipif("pytest.__version__ < '2.3'")
     def test_group_by_fixture(self, testdir):
         import re
         # set up prereqs
