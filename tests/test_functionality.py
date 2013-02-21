@@ -94,3 +94,21 @@ class TestFunctionality(object):
             actual_output = testdir.runpytest('--random', '--verbose')
             assert not actual_output.outlines[6:-1] in run_results
             run_results.append(actual_output.outlines[6:-1])
+
+
+    def test_seed_is_written_and_can_be_set(self, testdir):
+        # set up prereqs
+        self._set_things_up(testdir)
+
+        # do randomized run
+        first_output = testdir.runpytest('--random', '--verbose')
+        # get the seed
+        seedline = [x for x in first_output.outlines if x.startswith(u'Tests are shuffled')]
+        assert len(seedline) == 1
+        seed = int(seedline[0].split()[-1].strip('.'))
+        # second run should be the same order
+        second_output = testdir.runpytest('--random', '--random-seed', str(seed), '--verbose')
+        assert first_output.outlines[6:-1] == second_output.outlines[6:-1]
+        # third run with different seed should be different
+        third_output = testdir.runpytest('--random', '--random-seed', str(seed + 1), '--verbose')
+        assert first_output.outlines[6:-1] != third_output.outlines[6:-1]
